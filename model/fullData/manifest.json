@@ -1,0 +1,6 @@
+{
+    "description": "fullData",
+    "model": "model/fullData/model.json",
+    "modelSize": 128,
+    "modelLatentDim": 128
+}
