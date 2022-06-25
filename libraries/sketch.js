@@ -8,6 +8,13 @@ let button;
 let cnv;
 let clicks = 0;
 
+const imageNumber = 7;
+const firstAndLastOffset = 100;
+const startOffset = 0;
+const offset = 400;
+
+const imageGenerationDelay = 100;
+
 function preload() {
   dcgan = ml5.DCGAN("model/fullData/manifest.json");
 }
@@ -60,15 +67,14 @@ function keyPressed() {
   }
 }
 
-const imageNumber = 7;
-const firstAndLastOffset = 100;
-const startOffset = 0;
-const offset = 400;
-
 function GANGeneration() {
   button.attribute('disabled', '');
   setTimeout(() => {
-    Array.from(Array(imageNumber).keys()).forEach(index => dcgan.generate(displayImageGeneric(index)));
+    Array.from(Array(imageNumber).keys()).forEach(index => {
+      setTimeout(() => {
+      dcgan.generate(displayImageGeneric(index));
+      }, index * imageGenerationDelay);
+    });
     button.removeAttribute('disabled');
   }, 50);
 }
