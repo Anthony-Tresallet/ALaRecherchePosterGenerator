@@ -6,7 +6,7 @@
 let dcgan;
 let button;
 let cnv;
-var clicks = 0;
+let clicks = 0;
 
 function preload() {
   dcgan = ml5.DCGAN("model/fullData/manifest.json");
@@ -29,8 +29,6 @@ function setup() {
   
   button = createButton("Génère ton image ma race");
   button.mousePressed(GANGeneration);
-  
-  GANGeneration();
 // Button to generate an image
 }
 
@@ -68,7 +66,11 @@ const startOffset = 0;
 const offset = 400;
 
 function GANGeneration() {
-  Array.from(Array(imageNumber).keys()).forEach(index => dcgan.generate(displayImageGeneric(index)));
+  button.attribute('disabled', '');
+  setTimeout(() => {
+    Array.from(Array(imageNumber).keys()).forEach(index => dcgan.generate(displayImageGeneric(index)));
+    button.removeAttribute('disabled');
+  }, 50);
 }
 
 function displayImageGeneric(index) {
