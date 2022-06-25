@@ -10,10 +10,7 @@ let clicks = 0;
 
 const imageNumber = 7;
 const firstAndLastOffset = 100;
-const startOffset = 0;
-const offset = 400;
-
-const imageGenerationDelay = 100;
+const offset = 350;
 
 function preload() {
   dcgan = ml5.DCGAN("model/fullData/manifest.json");
@@ -24,8 +21,6 @@ function setup() {
   cnv = createCanvas(2400, 3508);
   background(255);
   smooth();
-
-
 
   // Reduce size of preview
   let scalePreview = 0.25;
@@ -69,14 +64,16 @@ function keyPressed() {
 
 function GANGeneration() {
   button.attribute('disabled', '');
-  setTimeout(() => {
-    Array.from(Array(imageNumber).keys()).forEach(index => {
-      setTimeout(() => {
-      dcgan.generate(displayImageGeneric(index));
-      }, index * imageGenerationDelay);
-    });
-    button.removeAttribute('disabled');
-  }, 50);
+  drawNextImage(0);
+}
+
+function drawNextImage(drawingIndex) {
+  dcgan.generate(displayImageGeneric(drawingIndex)).then((result) => {
+    if (drawingIndex < imageNumber - 1)
+      drawNextImage(drawingIndex + 1);
+    else
+      button.removeAttribute('disabled');
+  });
 }
 
 function displayImageGeneric(index) {
@@ -87,7 +84,7 @@ function displayImageGeneric(index) {
     }
     clicks++;
     imageMode(CENTER);
-    let size = width - offset * index + startOffset;
+    let size = width - offset * index;
     if (index === 0 || index === imageNumber - 1)
       size -= firstAndLastOffset;
     image(result.image, width / 2, width / 2, size, size);
