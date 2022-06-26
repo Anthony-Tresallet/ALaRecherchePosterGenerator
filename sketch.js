@@ -29,8 +29,10 @@ function setup() {
   cnv.style.height = round(height * scalePreview) + "px";
 
   
-  button = createButton("Génère ton image ma race");
+  button = createButton("Générer le poster");
   button.mousePressed(GANGeneration);
+  button.position(width*1.35 * scalePreview, height * 0.25 + 100);
+
 // Button to generate an image
 }
 
